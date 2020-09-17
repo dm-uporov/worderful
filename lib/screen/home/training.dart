@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
+
+import 'package:words_remember/utils/NeumorphicContainer.dart';
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({Key key}) : super(key: key);
@@ -19,6 +22,13 @@ class _TrainingScreenState extends State<TrainingScreen> {
             onPressed: () {
               Navigator.pushNamed(context, '/training/writing');
             },
+          ),
+          Padding(padding: EdgeInsets.only(top: 40.0)),
+          NeumorphicContainer(
+            child: Text(
+              "Neumorphic",
+              style: TextStyle(fontSize: 32.0, color: Colors.grey.shade500),
+            ),
           ),
         ],
       ),

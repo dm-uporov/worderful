@@ -27,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final selectedScreen = Screen.values[_selectedIndex];
     return Scaffold(
+      backgroundColor: Colors.grey.shade400,
       appBar: AppBar(
+        backgroundColor: Colors.grey.shade700,
         title: Text(selectedScreen.title),
       ),
       body: IndexedStack(
