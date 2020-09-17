@@ -12,6 +12,10 @@ class WordsRepository {
     await _box.add(word);
   }
 
+  static Future deleteWord(Word word) async {
+    await _box.delete(word);
+  }
+
   static List<Word> getWords() {
     return _box.values.toList();
   }

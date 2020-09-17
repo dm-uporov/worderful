@@ -4,7 +4,7 @@ import 'HiveTypeId.dart';
 part 'Word.g.dart';
 
 @HiveType(typeId: HiveTypeId.WORD)
-class Word {
+class Word extends HiveObject {
   Word(this.source, this.translate);
 
   @HiveField(0)

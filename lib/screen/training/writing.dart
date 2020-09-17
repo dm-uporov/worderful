@@ -40,9 +40,9 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
         currentWord = words.first;
         break;
       default:
-        int wordIndex = random.nextInt(words.length - 1);
+        int wordIndex = random.nextInt(words.length);
         while (wordIndex == _lastWordIndex) {
-          wordIndex = random.nextInt(words.length - 1);
+          wordIndex = random.nextInt(words.length);
         }
         _lastWordIndex = wordIndex;
         currentWord = words[wordIndex];
