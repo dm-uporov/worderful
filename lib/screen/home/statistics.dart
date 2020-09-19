@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:words_remember/utils/NeumorphicRipplesBoard.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key key}) : super(key: key);
@@ -10,8 +11,6 @@ class StatisticsScreen extends StatefulWidget {
 class _StatisticsScreenState extends State<StatisticsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("WIP"),
-    );
+    return NeomorphicRipplesBoard();
   }
 }

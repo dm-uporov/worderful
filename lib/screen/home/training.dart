@@ -30,6 +30,14 @@ class _TrainingScreenState extends State<TrainingScreen> {
               style: TextStyle(fontSize: 32.0, color: Colors.grey.shade500),
             ),
           ),
+          Padding(padding: EdgeInsets.only(top: 40.0)),
+          NeumorphicContainer(
+            child: Icon(
+              Icons.keyboard_arrow_right,
+              color: Colors.grey.shade500,
+            ),
+            radius: 100,
+          ),
         ],
       ),
     );
