@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:words_remember/resources/colors.dart';
 
 typedef OnTapCallback = void Function(Offset point);
 
@@ -33,20 +34,20 @@ class _NeumorphicPaint extends CustomPainter {
     this.pressProgress,
   });
 
-  static const blurSigma = 2.0;
+  static const blurSigma = 3.0;
   static const mainFrameBlurSigma = 2.0;
 
   final Radius radius;
   final double pressProgress;
 
   final Paint mainPaint = Paint()
-    ..color = Colors.grey.shade400
+    ..color = backgroundColor
     ..maskFilter = MaskFilter.blur(BlurStyle.normal, mainFrameBlurSigma);
   final Paint shadowPaint = Paint()
-    ..color = Colors.grey.shade500.withOpacity(0.5)
+    ..color = darken(backgroundColor)
     ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
   final Paint lightPaint = Paint()
-    ..color = Colors.grey.shade300.withOpacity(0.5)
+    ..color = lighten(backgroundColor)
     ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
 
   @override

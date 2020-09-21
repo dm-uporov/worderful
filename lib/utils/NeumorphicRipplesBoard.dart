@@ -1,7 +1,7 @@
-import 'dart:collection';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:words_remember/resources/colors.dart';
+
+import 'RipplePainter.dart';
 
 const int WAVE_DURATION = 3000;
 
@@ -9,7 +9,6 @@ class NeumorphicRipplesBoard extends StatefulWidget {
   @override
   _NeumorphicRipplesBoardState createState() => _NeumorphicRipplesBoardState();
 }
-
 
 class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
     with SingleTickerProviderStateMixin {
@@ -58,7 +57,7 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
         });
       },
       child: Container(
-        color: Colors.grey.shade400,
+        color: backgroundColor,
         width: width,
         height: height,
         child: CustomPaint(
@@ -66,6 +65,8 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
             points,
             _animationTime,
             height,
+            WAVE_DURATION,
+            backgroundColor
           ),
         ),
       ),
@@ -79,72 +80,10 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
         .where((element) => _animationTime - element.fromTime < WAVE_DURATION)
         .toList();
   }
-}
-
-class RipplePainter extends CustomPainter {
-
-  RipplePainter(this.touchPoints, this.currentTime, this.maxRippleSize);
-
-  final List<TouchPoint> touchPoints;
-  final int currentTime;
-  final double maxRippleSize;
-
-  final Paint ripplePaint = Paint()
-    ..color = Colors.grey.shade400
-    ..strokeWidth = 5.0
-    ..style = PaintingStyle.stroke
-    ..imageFilter = ImageFilter.blur(sigmaX: 5, sigmaY: 5);
-  final Paint shadowPaint = Paint()
-    ..color = Colors.grey.shade600
-    ..strokeWidth = 2.0
-    ..style = PaintingStyle.stroke
-    ..imageFilter = ImageFilter.blur(sigmaX: 5, sigmaY: 5);
-  final Paint lightPaint = Paint()
-    ..color = Colors.white
-    ..strokeWidth = 2.0
-    ..style = PaintingStyle.stroke
-    ..imageFilter = ImageFilter.blur(sigmaX: 5, sigmaY: 5);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    touchPoints.forEach((point) {
-      final timePassed = currentTime - point.fromTime;
-      final rippleProgress = timePassed.toDouble() / WAVE_DURATION.toDouble();
-      final rippleSize = maxRippleSize * rippleProgress;
-      paintOneRipple(canvas, point.point, rippleSize);
-    });
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
-
-  void paintOneRipple(Canvas canvas, Offset center, double rippleSize) {
-    Path path = Path()
-      ..addOval(Rect.fromCircle(
-        center: center,
-        radius: rippleSize,
-      ));
-    Path shadow = Path()
-      ..addOval(Rect.fromCircle(
-        center: Offset(center.dx + 2, center.dy + 2),
-        radius: rippleSize,
-      ));
-    Path light = Path()
-      ..addOval(Rect.fromCircle(
-        center: Offset(center.dx - 2, center.dy - 2),
-        radius: rippleSize,
-      ));
-    canvas.drawPath(shadow, shadowPaint);
-    canvas.drawPath(light, lightPaint);
-    canvas.drawPath(path, ripplePaint);
-  }
-
-  @override
-  bool shouldRepaint(RipplePainter oldDelegate) {
-    return touchPoints.isNotEmpty;
-  }
-}
-
-class TouchPoint {
-  final Offset point;
-  final int fromTime;
-
-  TouchPoint(this.point, this.fromTime);
 }

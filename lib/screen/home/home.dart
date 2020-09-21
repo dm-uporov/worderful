@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/screen/home/new_word.dart';
-import 'package:words_remember/screen/home/training.dart';
+import 'package:words_remember/screen/home/trainings.dart';
 import 'package:words_remember/screen/home/statistics.dart';
 import 'package:words_remember/screen/home/words_list.dart';
 
@@ -27,19 +28,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final selectedScreen = Screen.values[_selectedIndex];
     return Scaffold(
-      backgroundColor: Colors.grey.shade400,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade700,
-        title: Text(selectedScreen.title),
+        backgroundColor: backgroundColor,
+        title: Text(
+          selectedScreen.title,
+          style: TextStyle(color: solidColor),
+        ),
       ),
       body: IndexedStack(
         index: _selectedIndex,
         children: Screen.values.map((e) => e.widget).toList(),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: backgroundColor,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.black38,
+        selectedItemColor: accentColor,
+        unselectedItemColor: neutralColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.category_outlined),
@@ -50,13 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text('Статистика'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.playlist_play),
+            icon: Icon(Icons.playlist_add),
             title: Text('Список слов'),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.playlist_add_rounded),
-            title: Text('Добавить'),
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.playlist_add_rounded),
+          //   title: Text('Добавить'),
+          // ),
         ],
         onTap: _onItemTapped,
       ),
@@ -95,8 +100,8 @@ extension ScreenExtension on Screen {
         return 'Статистика';
       case Screen.WORDS_LIST:
         return 'Список слов';
-      case Screen.NEW_WORD:
-        return 'Добавить слово';
+      // case Screen.NEW_WORD:
+      //   return 'Добавить слово';
       default:
         return null;
     }

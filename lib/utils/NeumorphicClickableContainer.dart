@@ -14,11 +14,15 @@ class NeumorphicClickableContainer extends StatefulWidget {
     this.radius = 5.0,
     this.onTapDown,
     this.onTap,
+    this.onTapUp,
+    this.onTapCancel,
   }) : super(key: key);
 
   final Widget child;
   final double radius;
-  final OnTapCallback onTapDown;
+  final GestureTapDownCallback onTapDown;
+  final GestureTapUpCallback onTapUp;
+  final GestureTapCancelCallback onTapCancel;
   final GestureTapCallback onTap;
   final NeumorphicType type;
 
@@ -38,24 +42,30 @@ class _NeumorphicClickableContainerState
         begin: pressed ? 1.0 : -1.0,
         end: pressed ? -1.0 : 1.0,
       ),
-      curve: Curves.easeOutCubic,
+      curve: Curves.easeOut,
       duration: Duration(milliseconds: 300),
       builder: (context, value, child) {
         return GestureDetector(
           onTapDown: (details) {
             setState(() {
               if (widget.onTapDown != null) {
-                widget.onTapDown(details.globalPosition);
+                widget.onTapDown(details);
               }
               pressed = true;
             });
           },
           onTapUp: (details) {
+            if (widget.onTapUp != null) {
+              widget.onTapUp(details);
+            }
             setState(() {
               pressed = false;
             });
           },
           onTapCancel: () {
+            if (widget.onTapCancel != null) {
+              widget.onTapCancel();
+            }
             setState(() {
               pressed = false;
             });

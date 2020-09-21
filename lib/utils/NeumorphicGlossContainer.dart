@@ -17,9 +17,9 @@ class NeumorphicGlossContainer extends StatelessWidget {
   final bevel = 5.0;
   final blurOffset = const Offset(2.0, 2.0);
 
-  final lightColor = Colors.grey.shade300;
-  final mainColor = Colors.grey.shade400;
-  final darkColor = Colors.grey.shade500;
+  final lightColor = Colors.grey.shade800;
+  final mainColor = Colors.grey.shade900;
+  final darkColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +32,26 @@ class NeumorphicGlossContainer extends StatelessWidget {
       pressProgress * blurOffset.dy,
     );
 
-    final gradientOpacity = 1.0 - (pressProgress.abs() * 0.2);
+    final gradientOpacity = 1.0 - (pressProgress.abs() * 0.05);
     final colors = pressProgress > 0
         ? [
             Color.alphaBlend(
               mainColor.withOpacity(gradientOpacity),
-              lightColor,
+              darkColor,
             ),
             Color.alphaBlend(
               mainColor.withOpacity(gradientOpacity),
-              darkColor,
+              lightColor,
             ),
           ]
         : [
             Color.alphaBlend(
               mainColor.withOpacity(gradientOpacity),
-              darkColor,
+              lightColor,
             ),
             Color.alphaBlend(
               mainColor.withOpacity(gradientOpacity),
-              lightColor,
+              darkColor,
             ),
           ];
 
