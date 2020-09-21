@@ -5,20 +5,36 @@ import 'package:flutter/material.dart';
 
 const int WAVE_DURATION = 3000;
 
-class NeumorphicRipplesBoard extends StatefulWidget {
+class NeumorphicRipplesObservableBoard extends StatefulWidget {
+  const NeumorphicRipplesObservableBoard({Key key, this.point, this.color})
+      : super(key: key);
+
+  final TouchPoint point;
+  final Color color;
+
   @override
-  _NeumorphicRipplesBoardState createState() => _NeumorphicRipplesBoardState();
+  _NeumorphicRipplesObservableBoardState createState() =>
+      _NeumorphicRipplesObservableBoardState();
 }
 
-
-class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
+class _NeumorphicRipplesObservableBoardState
+    extends State<NeumorphicRipplesObservableBoard>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
 
-  List<Widget> ripples = [];
-  List<Widget> finished = [];
   List<TouchPoint> points = [];
-  int _animationTime = 0;
+  int _animationTime = DateTime.now().millisecondsSinceEpoch;
+
+  @override
+  void didUpdateWidget(NeumorphicRipplesObservableBoard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.point != widget.point) {
+      setState(() {
+        filterPoints();
+        points.add(widget.point);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -43,38 +59,28 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
   Widget build(BuildContext context) {
     Tween(begin: 0.0, end: double.infinity).animate(controller)
       ..addListener(() {
+        if (points.isEmpty) return;
         setState(() {
           _animationTime = DateTime.now().millisecondsSinceEpoch;
         });
       });
-
-    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return GestureDetector(
-      onTapDown: (details) {
-        setState(() {
-          filterPoints();
-          points.add(TouchPoint(details.localPosition, _animationTime));
-        });
-      },
-      child: Container(
-        color: Colors.grey.shade400,
-        width: width,
-        height: height,
-        child: CustomPaint(
-          painter: RipplePainter(
-            points,
-            _animationTime,
-            height,
-          ),
+    return Container(
+      color: widget.color,
+      child: CustomPaint(
+        size: MediaQuery.of(context).size,
+        painter: RipplePainter(
+          points,
+          _animationTime,
+          height,
         ),
       ),
     );
   }
-  
+
   void filterPoints() {
     if (points.isEmpty) return;
-    
+
     points = points
         .where((element) => _animationTime - element.fromTime < WAVE_DURATION)
         .toList();
@@ -82,7 +88,6 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
 }
 
 class RipplePainter extends CustomPainter {
-
   RipplePainter(this.touchPoints, this.currentTime, this.maxRippleSize);
 
   final List<TouchPoint> touchPoints;
