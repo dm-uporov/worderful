@@ -119,10 +119,10 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
                     ),
                   ),
                   radius: 100,
-                  onTapDown: (point) {
+                  onTap: () {
                     setState(() {
                       _isButtonPressed = true;
-                      this.point = TouchPoint(
+                      point = TouchPoint(
                         getPositionByKey(buttonKey),
                         DateTime.now().millisecondsSinceEpoch,
                       );
@@ -133,6 +133,21 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
                       }
                     });
                   },
+                  // TODO go to childBuilder
+                  // onTapDown: (point) {
+                  //   setState(() {
+                  //     _isButtonPressed = true;
+                  //     this.point = TouchPoint(
+                  //       getPositionByKey(buttonKey),
+                  //       DateTime.now().millisecondsSinceEpoch,
+                  //     );
+                  //     if (_isWritingEnabled) {
+                  //       _onAnswerAccepted();
+                  //     } else {
+                  //       _onNextClicked();
+                  //     }
+                  //   });
+                  // },
                 ),
               ],
             ),
@@ -147,26 +162,22 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
   }
 
   void _onAnswerAccepted() {
-    setState(() {
-      FocusScope.of(context).unfocus();
-      _isWritingEnabled = false;
-      final bool answerIsRight = currentWord.translate == _userInput;
-      if (answerIsRight) {
-        _hint = 'Всё верно, погнали дальше!';
-      } else {
-        _hint = 'Тупица! Правильный ответ: ${currentWord.translate}';
-      }
-    });
+    FocusScope.of(context).unfocus();
+    _isWritingEnabled = false;
+    final bool answerIsRight = currentWord.translate == _userInput;
+    if (answerIsRight) {
+      _hint = 'Всё верно, погнали дальше!';
+    } else {
+      _hint = 'Тупица! Правильный ответ: ${currentWord.translate}';
+    }
   }
 
   void _onNextClicked() {
-    setState(() {
-      _isWritingEnabled = true;
-      _hint = '';
-      _initRandomWord();
-      _userInput = null;
-      _controller.clear();
-    });
+    _isWritingEnabled = true;
+    _hint = '';
+    _initRandomWord();
+    _userInput = null;
+    _controller.clear();
   }
 
   Offset getPositionByKey(GlobalKey key) {

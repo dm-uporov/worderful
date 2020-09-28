@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/screen/home/new_word.dart';
@@ -28,17 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final selectedScreen = Screen.values[_selectedIndex];
     return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: backgroundColor,
-        title: Text(
-          selectedScreen.title,
-          style: TextStyle(color: solidColor),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [backgroundColorLighten, backgroundColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-      ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: Screen.values.map((e) => e.widget).toList(),
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: Screen.values.map((e) => e.widget).toList(),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: backgroundColor,
@@ -58,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.playlist_add),
             title: Text('Список слов'),
           ),
+          // TODO
           // BottomNavigationBarItem(
           //   icon: Icon(Icons.playlist_add_rounded),
           //   title: Text('Добавить'),

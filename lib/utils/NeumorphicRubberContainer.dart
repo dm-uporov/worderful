@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:words_remember/resources/colors.dart';
-
-typedef OnTapCallback = void Function(Offset point);
 
 class NeumorphicRubberContainer extends StatelessWidget {
   const NeumorphicRubberContainer({
     Key key,
     this.child,
     this.radius = 40.0,
-    /// from -1.0 (pressed) to 1.0 (normal)
-    this.pressProgress = 1.0,
+    this.pressProgress = 0.0,
   }) : super(key: key);
 
   final Widget child;
@@ -31,40 +27,39 @@ class NeumorphicRubberContainer extends StatelessWidget {
 class _NeumorphicPaint extends CustomPainter {
   _NeumorphicPaint({
     this.radius = const Radius.circular(0),
+    this.blurSigma = 4.0,
     this.pressProgress,
-  });
-
-  static const blurSigma = 3.0;
-  static const mainFrameBlurSigma = 2.0;
+  })  : shadowPaint = Paint()
+          ..color = Colors.black12.withOpacity(blurSigma / 20)//0.08)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma),
+        lightPaint = Paint()
+          ..color = Colors.white10.withOpacity(blurSigma / 40)//0.04)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
 
   final Radius radius;
   final double pressProgress;
+  final double blurSigma;
 
-  final Paint mainPaint = Paint()
-    ..color = backgroundColor
-    ..maskFilter = MaskFilter.blur(BlurStyle.normal, mainFrameBlurSigma);
-  final Paint shadowPaint = Paint()
-    ..color = darken(backgroundColor)
-    ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
-  final Paint lightPaint = Paint()
-    ..color = lighten(backgroundColor)
-    ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurSigma);
+  final Paint shadowPaint;
+  final Paint lightPaint;
 
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Rect.fromLTWH(0, 0, size.width, size.height);
     final rRect = RRect.fromRectAndRadius(rect, radius);
 
-    final lightRRect = rRect.shift(Offset(-blurSigma * pressProgress, -blurSigma * pressProgress));
-    final shadowRRect = rRect.shift(Offset(blurSigma * pressProgress, blurSigma * pressProgress));
+    final blurOffset = blurSigma * ((pressProgress * 2) - 1);
+    final lightRRect = rRect.shift(Offset(blurOffset, blurOffset));
+    final shadowRRect = rRect.shift(Offset(-blurOffset, -blurOffset));
 
-    canvas.drawRRect(lightRRect, lightPaint);
-    canvas.drawRRect(shadowRRect, shadowPaint);
-    canvas.drawRRect(rRect, mainPaint);
+    canvas.drawDRRect(rRect, lightRRect.deflate(blurSigma), shadowPaint);
+    canvas.drawDRRect(rRect, shadowRRect.deflate(blurSigma), lightPaint);
   }
 
   @override
   bool shouldRepaint(_NeumorphicPaint oldDelegate) {
-    return radius != oldDelegate.radius || pressProgress != oldDelegate.pressProgress;
+    return radius != oldDelegate.radius ||
+        pressProgress != oldDelegate.pressProgress ||
+        blurSigma != oldDelegate.blurSigma;
   }
 }

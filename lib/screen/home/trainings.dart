@@ -13,8 +13,6 @@ class TrainingScreen extends StatefulWidget {
 class _TrainingScreenState extends State<TrainingScreen> {
   final GlobalKey buttonKey = GlobalKey();
 
-  var isWritingButtonsPressed = false;
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -22,31 +20,47 @@ class _TrainingScreenState extends State<TrainingScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           NeumorphicClickableContainer(
-            child: Container(
-              width: 200,
-              height: 54,
-              padding: EdgeInsets.only(left: 16),
-              child: _writingWidget(),
-            ),
+            childBuilder: (pressProgress) => _writingWidget(pressProgress),
             type: NeumorphicType.RUBBER,
             radius: 40.0,
             onTap: () {
               Navigator.pushNamed(context, '/training/writing');
             },
-            onTapDown: (_) {
-              setState(() {
-                isWritingButtonsPressed = true;
-              });
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          NeumorphicClickableContainer(
+            childBuilder: (pressProgress) => _listeningWidget(pressProgress),
+            type: NeumorphicType.RUBBER,
+            radius: 40.0,
+            onTap: () {
+              Navigator.pushNamed(context, '/training/writing');
             },
-            onTapUp: (_) {
-              setState(() {
-                isWritingButtonsPressed = false;
-              });
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          NeumorphicClickableContainer(
+            childBuilder: (pressProgress) => _speakingWidget(pressProgress),
+            type: NeumorphicType.RUBBER,
+            radius: 40.0,
+            onTap: () {
+              Navigator.pushNamed(context, '/training/writing');
             },
-            onTapCancel: () {
-              setState(() {
-                isWritingButtonsPressed = false;
-              });
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          NeumorphicClickableContainer(
+            childBuilder: (pressProgress) => _selectWidget(pressProgress),
+            type: NeumorphicType.RUBBER,
+            radius: 40.0,
+            onTap: () {
+              Navigator.pushNamed(context, '/training/select');
+            },
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          NeumorphicClickableContainer(
+            childBuilder: (pressProgress) => _testWidget(pressProgress),
+            type: NeumorphicType.RUBBER,
+            radius: 40.0,
+            onTap: () {
+              Navigator.pushNamed(context, '/training/writing');
             },
           ),
         ],
@@ -54,22 +68,105 @@ class _TrainingScreenState extends State<TrainingScreen> {
     );
   }
 
-  Widget _writingWidget() {
-    final elementsColor = isWritingButtonsPressed ? accentColor : solidColor;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          Icons.edit_outlined,
-          color: elementsColor,
-        ),
-        Padding(padding: EdgeInsets.only(left: 8.0)),
-        Text(
-          'Написание',
-          style: TextStyle(color: elementsColor),
-        ),
-      ],
+  Widget _writingWidget(double pressProgress) {
+    return _menuButton(
+      pressProgress,
+      (elementsColor, accentColor) => _menuRow(
+        Icons.edit_outlined,
+        'Написание',
+        elementsColor,
+        accentColor,
+      ),
     );
+  }
+
+  Widget _speakingWidget(double pressProgress) {
+    return _menuButton(
+      pressProgress,
+      (elementsColor, accentColor) => _menuRow(
+        Icons.mic,
+        'Говорение',
+        elementsColor,
+        accentColor,
+      ),
+    );
+  }
+
+  Widget _listeningWidget(double pressProgress) {
+    return _menuButton(
+      pressProgress,
+      (elementsColor, accentColor) => _menuRow(
+        Icons.headset_mic_outlined,
+        'Слушание',
+        elementsColor,
+        accentColor,
+      ),
+    );
+  }
+
+  Widget _selectWidget(double pressProgress) {
+    return _menuButton(
+      pressProgress,
+      (elementsColor, accentColor) => _menuRow(
+        Icons.grid_view,
+        'Выбор из вариантов',
+        elementsColor,
+        accentColor,
+      ),
+    );
+  }
+
+  Widget _testWidget(double pressProgress) {
+    return _menuButton(
+      pressProgress,
+      (elementsColor, accentColor) => _menuRow(
+        Icons.list_alt,
+        'Викторина',
+        elementsColor,
+        accentColor,
+      ),
+    );
+  }
+
+  Widget _menuButton(double pressProgress, MenuRowBuilder menuRowBuilder) {
+    final solidColorEvaluated = solidColor.withOpacity(1 - pressProgress);
+    final accentColorEvaluated = accentColor.withOpacity(pressProgress);
+
+    final elementsColor = Color.alphaBlend(
+      solidColorEvaluated,
+      accentColorEvaluated,
+    );
+    final bottomMaxPadding = 3.0;
+    final bottomPadding = pressProgress * bottomMaxPadding;
+    return Container(
+      width: 240,
+      height: 60,
+      padding: EdgeInsets.only(left: 16, bottom: bottomPadding),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: menuRowBuilder.call(elementsColor, accentColorEvaluated),
+      ),
+    );
+  }
+
+  List<Widget> _menuRow(
+    IconData icon,
+    String title,
+    Color elementsColor,
+    Color accentColor,
+  ) {
+    return [
+      Padding(padding: EdgeInsets.only(left: 8.0)),
+      Icon(icon, color: elementsColor),
+      Padding(padding: EdgeInsets.only(left: 8.0)),
+      Text(
+        title,
+        style: TextStyle(
+          color: elementsColor,
+          shadows: [Shadow(color: accentColor, blurRadius: 5)],
+        ),
+      ),
+    ];
   }
 
   Offset getPositionByKey(GlobalKey key) {
@@ -77,3 +174,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
     return renderBox.localToGlobal(Offset(renderBox.size.width / 2, -68));
   }
 }
+
+typedef MenuRowBuilder = List<Widget> Function(
+  Color elementsColor,
+  Color accentColor,
+);
