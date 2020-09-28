@@ -33,7 +33,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
             type: NeumorphicType.RUBBER,
             radius: 40.0,
             onTap: () {
-              Navigator.pushNamed(context, '/training/writing');
+              // Navigator.pushNamed(context, '/training/writing');
             },
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
@@ -42,7 +42,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
             type: NeumorphicType.RUBBER,
             radius: 40.0,
             onTap: () {
-              Navigator.pushNamed(context, '/training/writing');
+              // Navigator.pushNamed(context, '/training/writing');
             },
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
@@ -51,7 +51,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
             type: NeumorphicType.RUBBER,
             radius: 40.0,
             onTap: () {
-              Navigator.pushNamed(context, '/training/select');
+              // Navigator.pushNamed(context, '/training/select');
             },
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
@@ -60,7 +60,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
             type: NeumorphicType.RUBBER,
             radius: 40.0,
             onTap: () {
-              Navigator.pushNamed(context, '/training/writing');
+              // Navigator.pushNamed(context, '/training/writing');
             },
           ),
         ],
@@ -73,7 +73,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       pressProgress,
       (elementsColor, accentColor) => _menuRow(
         Icons.edit_outlined,
-        'Написание',
+        'Писать',
         elementsColor,
         accentColor,
       ),
@@ -85,7 +85,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       pressProgress,
       (elementsColor, accentColor) => _menuRow(
         Icons.mic,
-        'Говорение',
+        'Говорить',
         elementsColor,
         accentColor,
       ),
@@ -97,7 +97,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       pressProgress,
       (elementsColor, accentColor) => _menuRow(
         Icons.headset_mic_outlined,
-        'Слушание',
+        'Слушать',
         elementsColor,
         accentColor,
       ),
@@ -109,7 +109,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
       pressProgress,
       (elementsColor, accentColor) => _menuRow(
         Icons.grid_view,
-        'Выбор из вариантов',
+        'Выбрать вариант',
         elementsColor,
         accentColor,
       ),

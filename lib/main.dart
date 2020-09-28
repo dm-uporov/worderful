@@ -11,6 +11,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(WordAdapter());
   await Hive.openBox<Word>(WordsRepository.REPO_NAME);
+  await WordsRepository.preinitWords();
   runApp(MyApp());
 }
 
@@ -25,10 +26,6 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
-      // routes: {
-      //   '/': (context) => HomeScreen(),
-      //   '/training/writing': (context) => WritingTrainingScreen(),
-      // },
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':

@@ -76,7 +76,6 @@ class _NeumorphicRipplesObservableBoardState
           _animationTime,
           height,
           WAVE_DURATION,
-          widget.color,
         ),
       ),
     );

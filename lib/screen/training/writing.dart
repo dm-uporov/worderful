@@ -28,9 +28,7 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
   String _hint = '';
 
   bool _isWritingEnabled = true;
-  bool _isButtonPressed = false;
 
-  TouchPoint point;
   final GlobalKey buttonKey = GlobalKey();
 
   @override
@@ -65,94 +63,69 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: Text('Тренировка | Написание'),
+        title: Text('Переведи'),
       ),
-      body: Stack(
-        children: [
-          NeumorphicRipplesObservableBoard(
-            point: point,
-            color: backgroundColor,
-          ),
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(left: 16.0, right: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '${currentWord.source}',
-                  style: TextStyle(fontSize: 22.0, color: solidColor),
-                ),
-                Padding(padding: EdgeInsets.only(top: 16.0)),
-                TextField(
-                  decoration: InputDecoration(
-                    hoverColor: solidColor,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: solidColor),
-                    ),
-                    fillColor: solidColor,
-                    focusColor: solidColor,
-                    labelStyle: TextStyle(color: solidColor),
-                    hintStyle: TextStyle(color: solidColor),
-                    labelText: 'Перевод',
-                  ),
-                  cursorColor: neutralColor,
-                  style: TextStyle(color: solidColor),
-                  onChanged: _onWordChanged,
-                  enabled: _isWritingEnabled,
-                  controller: _controller,
-                ),
-                Padding(padding: EdgeInsets.only(top: 16.0)),
-                Text(
-                  _hint,
-                  style: TextStyle(color: solidColor),
-                ),
-                Padding(padding: EdgeInsets.only(top: 16.0)),
-                NeumorphicClickableContainer(
-                  type: NeumorphicType.RUBBER,
-                  key: buttonKey,
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Icon(
-                      Icons.done,
-                      color: solidColor,
-                    ),
-                  ),
-                  radius: 100,
-                  onTap: () {
-                    setState(() {
-                      _isButtonPressed = true;
-                      point = TouchPoint(
-                        getPositionByKey(buttonKey),
-                        DateTime.now().millisecondsSinceEpoch,
-                      );
-                      if (_isWritingEnabled) {
-                        _onAnswerAccepted();
-                      } else {
-                        _onNextClicked();
-                      }
-                    });
-                  },
-                  // TODO go to childBuilder
-                  // onTapDown: (point) {
-                  //   setState(() {
-                  //     _isButtonPressed = true;
-                  //     this.point = TouchPoint(
-                  //       getPositionByKey(buttonKey),
-                  //       DateTime.now().millisecondsSinceEpoch,
-                  //     );
-                  //     if (_isWritingEnabled) {
-                  //       _onAnswerAccepted();
-                  //     } else {
-                  //       _onNextClicked();
-                  //     }
-                  //   });
-                  // },
-                ),
-              ],
+      body: Container(
+        decoration: backgroundGradientDecoration,
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${currentWord.source}',
+              style: TextStyle(fontSize: 22.0, color: solidColor),
             ),
-          ),
-        ],
+            Padding(padding: EdgeInsets.only(top: 16.0)),
+            TextField(
+              decoration: InputDecoration(
+                hoverColor: solidColor,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: solidColor),
+                ),
+                fillColor: solidColor,
+                focusColor: solidColor,
+                labelStyle: TextStyle(color: solidColor),
+                hintStyle: TextStyle(color: solidColor),
+                labelText: 'Перевод',
+              ),
+              cursorColor: neutralColor,
+              style: TextStyle(color: solidColor),
+              onChanged: _onWordChanged,
+              enabled: _isWritingEnabled,
+              controller: _controller,
+            ),
+            Padding(padding: EdgeInsets.only(top: 16.0)),
+            Text(
+              _hint,
+              style: TextStyle(color: solidColor),
+            ),
+            Padding(padding: EdgeInsets.only(top: 16.0)),
+            NeumorphicClickableContainer(
+              type: NeumorphicType.RUBBER,
+              key: buttonKey,
+              childBuilder: (pressProgress) {
+                return Padding(
+                  padding: EdgeInsets.all(32.0),
+                  child: Icon(
+                    Icons.done,
+                    color: colorByProgress(progress: pressProgress),
+                  ),
+                );
+              },
+              radius: 64,
+              onTap: () {
+                setState(() {
+                  if (_isWritingEnabled) {
+                    _onAnswerAccepted();
+                  } else {
+                    _onNextClicked();
+                  }
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

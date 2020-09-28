@@ -57,7 +57,6 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
         });
       },
       child: Container(
-        color: backgroundColor,
         width: width,
         height: height,
         child: CustomPaint(
@@ -65,8 +64,7 @@ class _NeumorphicRipplesBoardState extends State<NeumorphicRipplesBoard>
             points,
             _animationTime,
             height,
-            WAVE_DURATION,
-            backgroundColor
+            WAVE_DURATION
           ),
         ),
       ),

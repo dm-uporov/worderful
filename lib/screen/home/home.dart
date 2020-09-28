@@ -28,16 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedScreen = Screen.values[_selectedIndex];
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [backgroundColorLighten, backgroundColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        decoration: backgroundGradientDecoration,
         child: IndexedStack(
           index: _selectedIndex,
           children: Screen.values.map((e) => e.widget).toList(),

@@ -1,37 +1,33 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:words_remember/resources/colors.dart';
 
 class RipplePainter extends CustomPainter {
   RipplePainter(
     this.touchPoints,
     this.currentTime,
     this.maxRippleSize,
-    this.waveDuration,
-    mainColor,
-  )   : mainPaint = Paint()
-          ..color = mainColor
-          ..strokeWidth = 5.0
-          ..style = PaintingStyle.stroke
-          ..imageFilter = ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        shadowPaint = Paint()
-          ..color = darken(mainColor)
+    this.waveDuration, {
+    this.blurSigma = 6.0,
+  })  : shadowPaint = Paint()
+          ..color = Colors.black12.withOpacity(blurSigma / 20) //0.08)
           ..strokeWidth = 2.0
           ..style = PaintingStyle.stroke
-          ..imageFilter = ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          ..imageFilter =
+              ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
         lightPaint = Paint()
-          ..color = lighten(mainColor)
+          ..color = Colors.white10.withOpacity(blurSigma / 40) //0.04)
           ..strokeWidth = 2.0
           ..style = PaintingStyle.stroke
-          ..imageFilter = ImageFilter.blur(sigmaX: 5, sigmaY: 5);
+          ..imageFilter =
+              ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma);
 
   final List<TouchPoint> touchPoints;
   final int currentTime;
   final double maxRippleSize;
   final int waveDuration;
+  final double blurSigma;
 
-  final Paint mainPaint;
   final Paint shadowPaint;
   final Paint lightPaint;
 
@@ -46,24 +42,15 @@ class RipplePainter extends CustomPainter {
   }
 
   void paintOneRipple(Canvas canvas, Offset center, double rippleSize) {
-    Path path = Path()
-      ..addOval(Rect.fromCircle(
-        center: center,
-        radius: rippleSize,
-      ));
-    Path shadow = Path()
-      ..addOval(Rect.fromCircle(
-        center: Offset(center.dx + 2, center.dy + 2),
-        radius: rippleSize,
-      ));
-    Path light = Path()
-      ..addOval(Rect.fromCircle(
-        center: Offset(center.dx - 2, center.dy - 2),
-        radius: rippleSize,
-      ));
+    final rect = Rect.fromCircle(center: center, radius: rippleSize);
+    final shadowRect = rect.shift(Offset(2, 2));
+    final lightRect = rect.shift(Offset(-2, -2));
+
+    Path shadow = Path()..addOval(shadowRect);
+    Path light = Path()..addOval(lightRect);
+
     canvas.drawPath(shadow, shadowPaint);
     canvas.drawPath(light, lightPaint);
-    canvas.drawPath(path, mainPaint);
   }
 
   @override
