@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:words_remember/business/WordsRepository.dart';
+import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/screen/home/home.dart';
 import 'package:words_remember/screen/training/writing.dart';
 
@@ -12,6 +14,14 @@ void main() async {
   Hive.registerAdapter(WordAdapter());
   await Hive.openBox<Word>(WordsRepository.REPO_NAME);
   await WordsRepository.preinitWords();
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: cycleBlueDark,
+    systemNavigationBarIconBrightness: Brightness.light,
+    statusBarColor: Colors.white.withOpacity(0.05),
+    statusBarIconBrightness: Brightness.light,
+  ));
+
   runApp(MyApp());
 }
 
@@ -21,10 +31,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
       initialRoute: '/',
       onGenerateRoute: (settings) {
         switch (settings.name) {

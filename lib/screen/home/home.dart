@@ -1,11 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/screen/home/new_word.dart';
 import 'package:words_remember/screen/home/trainings.dart';
 import 'package:words_remember/screen/home/statistics.dart';
 import 'package:words_remember/screen/home/words_list.dart';
+import 'package:words_remember/utils/NeumorphicBottomNavigationBar.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({this.initScreenId = 0, Key key}) : super(key: key);
@@ -29,38 +28,39 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: backgroundGradientDecoration,
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: Screen.values.map((e) => e.widget).toList(),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: backgroundColor,
-        currentIndex: _selectedIndex,
-        selectedItemColor: accentColor,
-        unselectedItemColor: neutralColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
-            title: Text('Тренировка'),
+      body: Stack(
+        children: [
+          Container(
+            decoration: backgroundGradientDecoration,
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: Screen.values.map((e) => e.widget).toList(),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            title: Text('Статистика'),
+          Positioned(
+            bottom: 0,
+            height: 72,
+            left: 0,
+            right: 0,
+            child: NeumorphicBottomNavigationBar(
+              items: [
+                NeumorphicBottomNavigationBarItem(
+                  icon: Icons.flag_rounded,
+                  title: 'Тренировка',
+                ),
+                NeumorphicBottomNavigationBarItem(
+                  icon: Icons.bar_chart,
+                  title: 'Статистика',
+                ),
+                NeumorphicBottomNavigationBarItem(
+                  icon: Icons.playlist_add,
+                  title: 'Словарь',
+                ),
+              ],
+              onTap: _onItemTapped,
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.playlist_add),
-            title: Text('Список слов'),
-          ),
-          // TODO
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.playlist_add_rounded),
-          //   title: Text('Добавить'),
-          // ),
         ],
-        onTap: _onItemTapped,
       ),
     );
   }

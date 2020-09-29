@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 
 const Color neutralColor = Colors.white24;
 const Color solidColor = Colors.white70;
-final Color accentColor = lighten(Colors.lightBlueAccent);
 final Color backgroundColorLighten = darken(Colors.purpleAccent, .3);
 final Color backgroundColor = darken(Colors.deepPurple.shade900, .2);
 
+const Color cycleRedDark = Color.fromRGBO(21, 5, 54, 1);
+const Color cycleRedMain = Color.fromRGBO(107, 10, 120, 1);
+const Color cycleRedAccent = Color.fromRGBO(176, 0, 126, 1);
+const Color cycleBlueDark = Color.fromRGBO(21, 12, 41, 1);
+const Color cycleBlueMain = Color.fromRGBO(2, 92, 162, 1);
+const Color cycleBlueAccent = Color.fromRGBO(15, 219, 250, 1);
+
+
 final backgroundGradientDecoration = BoxDecoration(
   gradient: LinearGradient(
-    colors: [backgroundColorLighten, backgroundColor],
+    colors: [cycleRedMain, cycleRedDark],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   ),
@@ -37,10 +44,10 @@ Color colorByProgress({
   Color end,
   @required double progress,
 }) {
-  end == null ? end = accentColor : end = end;
+  end == null ? end = cycleBlueAccent : end = end;
 
   final solidColorEvaluated = begin.withOpacity(1 - progress);
-  final accentColorEvaluated = accentColor.withOpacity(progress);
+  final accentColorEvaluated = end.withOpacity(progress);
 
   return Color.alphaBlend(
     solidColorEvaluated,

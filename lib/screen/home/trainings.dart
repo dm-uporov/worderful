@@ -130,7 +130,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
 
   Widget _menuButton(double pressProgress, MenuRowBuilder menuRowBuilder) {
     final solidColorEvaluated = solidColor.withOpacity(1 - pressProgress);
-    final accentColorEvaluated = accentColor.withOpacity(pressProgress);
+    final accentColorEvaluated = cycleBlueAccent.withOpacity(pressProgress);
 
     final elementsColor = Color.alphaBlend(
       solidColorEvaluated,
