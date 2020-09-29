@@ -157,7 +157,20 @@ class _TrainingScreenState extends State<TrainingScreen> {
   ) {
     return [
       Padding(padding: EdgeInsets.only(left: 8.0)),
-      Icon(icon, color: elementsColor),
+      Stack(
+        children: [
+          Icon(icon, color: accentColor),
+          Positioned(
+            width: 200,
+            height: 200,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              child: Container(color: Colors.black.withOpacity(0)),
+            ),
+          ),
+          Icon(icon, color: elementsColor),
+        ],
+      ),
       Padding(padding: EdgeInsets.only(left: 8.0)),
       Text(
         title,
