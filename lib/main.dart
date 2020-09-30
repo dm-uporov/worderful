@@ -18,7 +18,7 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: cycleBlueDark,
     systemNavigationBarIconBrightness: Brightness.light,
-    statusBarColor: Colors.white.withOpacity(0.05),
+    statusBarColor: cycleRedMain,
     statusBarIconBrightness: Brightness.light,
   ));
 

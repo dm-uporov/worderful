@@ -65,5 +65,9 @@ abstract class NeumorphicPressableContainerState<
   }
 
   @protected
-  GestureDetector createGestureDetector({context, value, child});
+  GestureDetector createGestureDetector({
+    BuildContext context,
+    double value,
+    Widget child,
+  });
 }

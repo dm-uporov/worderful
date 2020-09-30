@@ -54,7 +54,11 @@ class _NeumorphicSelectableContainerState
   }
 
   @override
-  GestureDetector createGestureDetector({context, value, child}) {
+  GestureDetector createGestureDetector({
+    BuildContext context,
+    double value,
+    Widget child,
+  }) {
     return GestureDetector(
       child: child,
       onTapDown: (details) {
