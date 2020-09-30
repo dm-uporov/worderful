@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
 
 import 'BrightIcon.dart';
+import 'container/NeumorphicContainer.dart';
+import 'container/NeumorphicSelectableContainer.dart';
 
 class NeumorphicBottomNavigationBar extends StatefulWidget {
   NeumorphicBottomNavigationBar({
@@ -38,7 +40,7 @@ class _NeumorphicBottomNavigationBarState
       ),
       height: 72,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 36.0),
+        padding: EdgeInsets.symmetric(horizontal: 48.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: itemsWidgets(),
@@ -58,24 +60,33 @@ class _NeumorphicBottomNavigationBarState
 
   Widget createItem(NeumorphicBottomNavigationBarItem item, int index) {
     final itemIsSelected = index == selected;
-    return GestureDetector(
-      onTap: () {
+    return NeumorphicSelectableContainer(
+      style: NeumorphicStyle(
+        radius: 8,
+        blurRadius: 1,
+        elevation: 0.3,
+      ),
+      selected: itemIsSelected,
+      childBuilder: (pressProgress) {
+        /// cause pressProgress here is from 0.5 to 1.0
+        final normalizedProgress = pressProgress * 2 - 1;
+        return Container(
+          width: 48,
+          height: 48,
+          color: Colors.black.withOpacity(0),
+          child: BrightIcon(
+            icon: item.icon,
+            solidColor: colorByProgress(progress: normalizedProgress),
+            brightnessColor: cycleBlueAccent.withOpacity(normalizedProgress),
+          ),
+        );
+      },
+      onSelected: () {
         widget.onTap.call(index);
         setState(() {
           selected = index;
         });
       },
-      child: Container(
-        width: 72,
-        height: 72,
-        color: Colors.black.withOpacity(0),
-        child: BrightIcon(
-          icon: item.icon,
-          solidColor: itemIsSelected ? cycleBlueAccent : solidColor,
-          brightnessColor:
-              itemIsSelected ? cycleBlueAccent : Colors.transparent,
-        ),
-      ),
     );
   }
 }

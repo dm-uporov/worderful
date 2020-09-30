@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:words_remember/business/WordsRepository.dart';
 import 'package:words_remember/model/Word.dart';
 import 'package:words_remember/resources/colors.dart';
-import 'package:words_remember/utils/NeumorphicClickableContainer.dart';
+import 'package:words_remember/utils/container/NeumorphicClickableContainer.dart';
+import 'package:words_remember/utils/container/NeumorphicContainer.dart';
 import 'dart:math';
 
 import 'package:words_remember/utils/NeumorphicRipplesObservableBoard.dart';
@@ -102,7 +103,6 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
             ),
             Padding(padding: EdgeInsets.only(top: 16.0)),
             NeumorphicClickableContainer(
-              type: NeumorphicType.RUBBER,
               key: buttonKey,
               childBuilder: (pressProgress) {
                 return Padding(
@@ -113,7 +113,7 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
                   ),
                 );
               },
-              radius: 64,
+              style: NeumorphicStyle(radius: 64),
               onTap: () {
                 setState(() {
                   if (_isWritingEnabled) {

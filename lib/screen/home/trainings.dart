@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/utils/BrightIcon.dart';
-import 'package:words_remember/utils/NeumorphicClickableContainer.dart';
+import 'package:words_remember/utils/container/NeumorphicClickableContainer.dart';
 import 'dart:ui';
+
+import 'package:words_remember/utils/container/NeumorphicContainer.dart';
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({Key key}) : super(key: key);
@@ -22,8 +24,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
         children: [
           NeumorphicClickableContainer(
             childBuilder: (pressProgress) => _writingWidget(pressProgress),
-            type: NeumorphicType.RUBBER,
-            radius: 40.0,
+            style: NeumorphicStyle(radius: 40),
             onTap: () {
               Navigator.pushNamed(context, '/training/writing');
             },
@@ -31,8 +32,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
           Padding(padding: EdgeInsets.only(top: 30)),
           NeumorphicClickableContainer(
             childBuilder: (pressProgress) => _listeningWidget(pressProgress),
-            type: NeumorphicType.RUBBER,
-            radius: 40.0,
+            style: NeumorphicStyle(radius: 40),
             onTap: () {
               // Navigator.pushNamed(context, '/training/writing');
             },
@@ -40,8 +40,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
           Padding(padding: EdgeInsets.only(top: 30)),
           NeumorphicClickableContainer(
             childBuilder: (pressProgress) => _speakingWidget(pressProgress),
-            type: NeumorphicType.RUBBER,
-            radius: 40.0,
+            style: NeumorphicStyle(radius: 40),
             onTap: () {
               // Navigator.pushNamed(context, '/training/writing');
             },
@@ -49,8 +48,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
           Padding(padding: EdgeInsets.only(top: 30)),
           NeumorphicClickableContainer(
             childBuilder: (pressProgress) => _selectWidget(pressProgress),
-            type: NeumorphicType.RUBBER,
-            radius: 40.0,
+            style: NeumorphicStyle(radius: 40),
             onTap: () {
               // Navigator.pushNamed(context, '/training/select');
             },
@@ -58,8 +56,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
           Padding(padding: EdgeInsets.only(top: 30)),
           NeumorphicClickableContainer(
             childBuilder: (pressProgress) => _testWidget(pressProgress),
-            type: NeumorphicType.RUBBER,
-            radius: 40.0,
+            style: NeumorphicStyle(radius: 40),
             onTap: () {
               // Navigator.pushNamed(context, '/training/writing');
             },

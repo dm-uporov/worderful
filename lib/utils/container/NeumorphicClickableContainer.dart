@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:words_remember/utils/NeumorphicGlossContainer.dart';
-import 'package:words_remember/utils/NeumorphicRubberContainer.dart';
+import 'package:words_remember/utils/container/NeumorphicContainer.dart';
 
 typedef WidgetBuilder = Widget Function(double pressProgress);
-
-enum NeumorphicType { GLOSS, RUBBER }
 
 class NeumorphicClickableContainer extends StatefulWidget {
   const NeumorphicClickableContainer({
     Key key,
     this.child,
     this.childBuilder,
-    this.type = NeumorphicType.GLOSS,
-    this.radius = 5.0,
+    this.style = const NeumorphicStyle(),
     this.onTap,
   }) : super(key: key);
 
   final Widget child;
   final WidgetBuilder childBuilder;
 
-  final NeumorphicType type;
-  final double radius;
+  final NeumorphicStyle style;
   final GestureTapCallback onTap;
 
   @override
@@ -30,6 +25,7 @@ class NeumorphicClickableContainer extends StatefulWidget {
 
 class _NeumorphicClickableContainerState
     extends State<NeumorphicClickableContainer> {
+
   bool pressed = false;
 
   @override
@@ -72,21 +68,10 @@ class _NeumorphicClickableContainerState
     final child = widget.child == null
         ? widget.childBuilder.call(pressProgress)
         : widget.child;
-    switch (widget.type) {
-      case NeumorphicType.GLOSS:
-        return NeumorphicGlossContainer(
-          radius: widget.radius,
-          child: child,
-          pressProgress: pressProgress,
-        );
-      case NeumorphicType.RUBBER:
-        return NeumorphicRubberContainer(
-          radius: widget.radius,
-          child: child,
-          pressProgress: pressProgress,
-        );
-      default:
-        throw Exception("Unknown type of neumorphic widget");
-    }
+    return NeumorphicContainer(
+      child: child,
+      pressProgress: pressProgress,
+      style: widget.style,
+    );
   }
 }
