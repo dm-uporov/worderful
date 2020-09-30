@@ -27,7 +27,7 @@ class _WordsListScreenState extends State<WordsListScreen> {
   Widget _wordToWidget(Word word) {
     return ListTile(
       title: Text(word.source, style: TextStyle(color: solidColor)),
-      subtitle: Text(word.translate, style: TextStyle(color: darken(solidColor, .3))),
+      subtitle: Text(word.translate, style: TextStyle(color: darken(solidColor, .2))),
       trailing: IconButton(
         icon: Icon(Icons.delete),
         color: solidColor,

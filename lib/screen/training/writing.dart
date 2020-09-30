@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:words_remember/business/WordsRepository.dart';
 import 'package:words_remember/model/Word.dart';
 import 'package:words_remember/resources/colors.dart';
+import 'package:words_remember/utils/BrightIcon.dart';
 import 'package:words_remember/utils/container/NeumorphicClickableContainer.dart';
 import 'package:words_remember/utils/container/NeumorphicContainer.dart';
 import 'dart:math';
@@ -63,7 +64,7 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: backgroundColor,
+        backgroundColor: cycleRedMain,
         title: Text('Переведи'),
       ),
       body: Container(
@@ -107,9 +108,10 @@ class _WritingTrainingScreenState extends State<WritingTrainingScreen> {
               childBuilder: (pressProgress) {
                 return Padding(
                   padding: EdgeInsets.all(32.0),
-                  child: Icon(
-                    Icons.done,
-                    color: colorByProgress(progress: pressProgress),
+                  child: BrightIcon(
+                    icon: Icons.done,
+                    solidColor: colorByProgress(progress: pressProgress),
+                    brightnessColor: cycleBlueAccent.withOpacity(pressProgress),
                   ),
                 );
               },

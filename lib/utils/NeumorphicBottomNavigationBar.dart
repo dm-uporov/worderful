@@ -71,8 +71,8 @@ class _NeumorphicBottomNavigationBarState
         /// cause pressProgress here is from 0.5 to 1.0
         final normalizedProgress = pressProgress * 2 - 1;
         return Container(
-          width: 48,
-          height: 48,
+          width: 54,
+          height: 54,
           color: Colors.black.withOpacity(0),
           child: BrightIcon(
             icon: item.icon,

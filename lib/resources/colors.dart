@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color neutralColor = Colors.white24;
-const Color solidColor = Colors.white70;
+final Color solidColor = Colors.grey.shade400;
 final Color backgroundColorLighten = darken(Colors.purpleAccent, .3);
 final Color backgroundColor = darken(Colors.deepPurple.shade900, .2);
 
@@ -40,10 +40,11 @@ Color lighten(Color color, [double amount = .1]) {
 }
 
 Color colorByProgress({
-  Color begin = solidColor,
+  Color begin,
   Color end,
   @required double progress,
 }) {
+  begin == null ? begin = solidColor : begin = begin;
   end == null ? end = cycleBlueAccent : end = end;
 
   final solidColorEvaluated = begin.withOpacity(1 - progress);
