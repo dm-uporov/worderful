@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
+import 'package:words_remember/utils/BrightIcon.dart';
 import 'package:words_remember/utils/NeumorphicClickableContainer.dart';
 import 'dart:ui';
 
@@ -157,19 +158,10 @@ class _TrainingScreenState extends State<TrainingScreen> {
   ) {
     return [
       Padding(padding: EdgeInsets.only(left: 8.0)),
-      Stack(
-        children: [
-          Icon(icon, color: accentColor),
-          Positioned(
-            width: 200,
-            height: 200,
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Container(color: Colors.black.withOpacity(0)),
-            ),
-          ),
-          Icon(icon, color: elementsColor),
-        ],
+      BrightIcon(
+        icon: icon,
+        solidColor: elementsColor,
+        brightnessColor: accentColor,
       ),
       Padding(padding: EdgeInsets.only(left: 8.0)),
       Text(

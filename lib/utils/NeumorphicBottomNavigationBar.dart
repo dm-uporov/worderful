@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
 
+import 'BrightIcon.dart';
+
 class NeumorphicBottomNavigationBar extends StatefulWidget {
   NeumorphicBottomNavigationBar({
     Key key,
@@ -55,6 +57,7 @@ class _NeumorphicBottomNavigationBarState
   }
 
   Widget createItem(NeumorphicBottomNavigationBarItem item, int index) {
+    final itemIsSelected = index == selected;
     return GestureDetector(
       onTap: () {
         widget.onTap.call(index);
@@ -66,9 +69,11 @@ class _NeumorphicBottomNavigationBarState
         width: 72,
         height: 72,
         color: Colors.black.withOpacity(0),
-        child: Icon(
-          item.icon,
-          color: index == selected ? cycleBlueAccent : solidColor,
+        child: BrightIcon(
+          icon: item.icon,
+          solidColor: itemIsSelected ? cycleBlueAccent : solidColor,
+          brightnessColor:
+              itemIsSelected ? cycleBlueAccent : Colors.transparent,
         ),
       ),
     );
@@ -76,8 +81,10 @@ class _NeumorphicBottomNavigationBarState
 }
 
 class NeumorphicBottomNavigationBarItem {
-  NeumorphicBottomNavigationBarItem(
-      {@required this.icon, @required this.title});
+  NeumorphicBottomNavigationBarItem({
+    @required this.icon,
+    @required this.title,
+  });
 
   final IconData icon;
   final String title;
