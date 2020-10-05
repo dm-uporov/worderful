@@ -61,6 +61,7 @@ class _NeumorphicBottomNavigationBarState
   Widget createItem(NeumorphicBottomNavigationBarItem item, int index) {
     final itemIsSelected = index == selected;
     return NeumorphicSelectableContainer(
+      maxUnpressedState: 0.5,
       style: NeumorphicStyle(
         radius: 8,
         blurRadius: 1,

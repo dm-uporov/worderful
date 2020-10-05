@@ -5,7 +5,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:words_remember/business/WordsRepository.dart';
 import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/screen/home/home.dart';
-import 'package:words_remember/screen/training/writing.dart';
+import 'package:words_remember/screen/training/reading.dart';
+import 'package:words_remember/screen/training/variants.dart';
 
 import 'model/Word.dart';
 
@@ -38,7 +39,14 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => HomeScreen());
           case '/training/writing':
             return PageRouteBuilder(
-              pageBuilder: (_, __, ___) => WritingTrainingScreen(),
+              pageBuilder: (_, __, ___) => ReadingTrainingScreen(),
+              transitionsBuilder: (_, anim, __, child) {
+                return FadeTransition(opacity: anim, child: child);
+              },
+            );
+          case '/training/variants':
+            return PageRouteBuilder(
+              pageBuilder: (_, __, ___) => VariantsTrainingScreen(),
               transitionsBuilder: (_, anim, __, child) {
                 return FadeTransition(opacity: anim, child: child);
               },

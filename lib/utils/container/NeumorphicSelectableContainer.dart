@@ -15,6 +15,7 @@ class NeumorphicSelectableContainer extends NeumorphicPressableContainer {
     WidgetBuilder childBuilder,
     NeumorphicStyle style = const NeumorphicStyle(),
     this.selected = false,
+    this.maxUnpressedState = 0.0,
     this.onSelected,
     this.onUnselected,
   }) : super(
@@ -26,21 +27,22 @@ class NeumorphicSelectableContainer extends NeumorphicPressableContainer {
         );
 
   final bool selected;
+  final double maxUnpressedState;
 
   final OnSelected onSelected;
   final OnUnselected onUnselected;
 
   @override
   _NeumorphicSelectableContainerState createState() =>
-      _NeumorphicSelectableContainerState(selected);
+      _NeumorphicSelectableContainerState(selected, maxUnpressedState);
 }
 
 class _NeumorphicSelectableContainerState
     extends NeumorphicPressableContainerState<NeumorphicSelectableContainer> {
-  _NeumorphicSelectableContainerState(bool selected)
+  _NeumorphicSelectableContainerState(bool selected, double maxUnpressedState)
       : super(
           pressed: selected,
-          maxUnpressedState: 0.5,
+          maxUnpressedState: maxUnpressedState,
         );
 
   @override

@@ -39,18 +39,10 @@ class _TrainingScreenState extends State<TrainingScreen> {
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
           NeumorphicClickableContainer(
-            childBuilder: (pressProgress) => _speakingWidget(pressProgress),
-            style: NeumorphicStyle(radius: 40),
-            onTap: () {
-              // Navigator.pushNamed(context, '/training/writing');
-            },
-          ),
-          Padding(padding: EdgeInsets.only(top: 30)),
-          NeumorphicClickableContainer(
             childBuilder: (pressProgress) => _selectWidget(pressProgress),
             style: NeumorphicStyle(radius: 40),
             onTap: () {
-              // Navigator.pushNamed(context, '/training/select');
+              Navigator.pushNamed(context, '/training/variants');
             },
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
@@ -70,20 +62,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
     return _menuButton(
       pressProgress,
       (elementsColor, accentColor) => _menuRow(
-        Icons.edit_outlined,
-        'Писать',
-        elementsColor,
-        accentColor,
-      ),
-    );
-  }
-
-  Widget _speakingWidget(double pressProgress) {
-    return _menuButton(
-      pressProgress,
-      (elementsColor, accentColor) => _menuRow(
-        Icons.mic,
-        'Говорить',
+        Icons.remove_red_eye_outlined,
+        'Читать',
         elementsColor,
         accentColor,
       ),
