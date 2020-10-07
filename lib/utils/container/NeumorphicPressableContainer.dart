@@ -34,9 +34,8 @@ abstract class NeumorphicPressableContainerState<
   });
 
   bool pressed;
-
-  final double maxUnpressedState;
-  final double maxPressedState;
+  double maxUnpressedState;
+  double maxPressedState;
 
   @override
   Widget build(BuildContext context) {
@@ -70,4 +69,12 @@ abstract class NeumorphicPressableContainerState<
     double value,
     Widget child,
   });
+
+  @protected
+  void changePressedTo(bool value) {
+    if (pressed == value) return;
+    setState(() {
+      pressed = value;
+    });
+  }
 }

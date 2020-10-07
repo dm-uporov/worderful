@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color neutralColor = Colors.white24;
-final Color solidColor = Colors.grey.shade400;
+final Color solidColor = Colors.grey.shade500;
 final Color backgroundColorLighten = darken(Colors.purpleAccent, .3);
 final Color backgroundColor = darken(Colors.deepPurple.shade900, .2);
 

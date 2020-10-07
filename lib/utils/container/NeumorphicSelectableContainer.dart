@@ -47,8 +47,10 @@ class _NeumorphicSelectableContainerState
 
   @override
   void didUpdateWidget(NeumorphicSelectableContainer oldWidget) {
-    if (widget.pressed != oldWidget.pressed) {
+    if (widget.pressed != oldWidget.pressed ||
+        widget.maxUnpressedState != oldWidget.maxUnpressedState) {
       setState(() {
+        maxUnpressedState = widget.maxUnpressedState;
         pressed = widget.pressed;
       });
     }

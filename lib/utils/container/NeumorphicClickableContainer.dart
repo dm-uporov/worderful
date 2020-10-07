@@ -44,11 +44,4 @@ class _NeumorphicClickableContainerState
       onTap: widget.onTap,
     );
   }
-
-  void changePressedTo(bool value) {
-    if (pressed == value) return;
-    setState(() {
-      pressed = value;
-    });
-  }
 }

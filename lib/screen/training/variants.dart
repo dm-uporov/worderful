@@ -5,6 +5,7 @@ import 'package:words_remember/business/WordsRepository.dart';
 import 'package:words_remember/model/Word.dart';
 import 'package:words_remember/resources/colors.dart';
 import 'package:words_remember/utils/BrightIcon.dart';
+import 'package:words_remember/utils/container/NeumorphicClickableContainer.dart';
 import 'package:words_remember/utils/container/NeumorphicContainer.dart';
 import 'dart:math';
 
@@ -37,6 +38,7 @@ class _VariantsTrainingScreenState extends State<VariantsTrainingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cycleRedMain,
@@ -44,80 +46,106 @@ class _VariantsTrainingScreenState extends State<VariantsTrainingScreen> {
         iconTheme: IconThemeData(color: solidColor),
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        width: size.width,
+        height: size.height,
         decoration: backgroundGradientDecoration,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              isReverse ? currentWord.translate : currentWord.source,
-              style: TextStyle(fontSize: 22.0, color: solidColor),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      createVariantWidget(variants[0]),
-                      Padding(padding: EdgeInsets.only(left: 8)),
-                      createVariantWidget(variants[1])
-                    ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    isReverse ? currentWord.translate : currentWord.source,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      color: solidColor,
+                    ),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 8)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      createVariantWidget(variants[2]),
-                      Padding(padding: EdgeInsets.only(left: 8)),
-                      createVariantWidget(variants[3])
-                    ],
+                ),
+              ),
+              Column(
+                children:
+                    variants.map((e) => createVariantWidget(size, e)).toList(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 24, bottom: 32),
+                    child: NeumorphicClickableContainer(
+                      style: NeumorphicStyle(
+                          radius: 64, blurRadius: 3, elevation: 0.1),
+                      onTap: onNextClicked,
+                      childBuilder: (pressProgress) {
+                        return Padding(
+                          padding: EdgeInsets.all(32),
+                          child: BrightIcon(
+                            icon: Icons.double_arrow_rounded,
+                            solidColor:
+                                colorByProgress(progress: pressProgress),
+                            brightnessColor:
+                                cycleBlueAccent.withOpacity(pressProgress),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
-              ),
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget createVariantWidget(Word word) {
+  Widget createVariantWidget(Size size, Word word) {
     Color color;
+    bool hasShadow;
     if (chosenVariant == null) {
       color = solidColor;
+      hasShadow = false;
     } else if (word == currentWord) {
-      color = Colors.lightGreen;
+      color = cycleBlueAccent;
+      hasShadow = true;
     } else if (word == chosenVariant) {
-      color = Colors.red;
+      color = cycleRedAccent;
+      hasShadow = true;
     } else {
       color = solidColor;
+      hasShadow = false;
     }
-    return NeumorphicSelectableContainer(
-      selected: chosenVariant != null &&
-          (word == chosenVariant || word == currentWord),
-      childBuilder: (pressProgress) {
-        return Padding(
-          padding: EdgeInsets.all(32.0),
-          child: Text(
-            isReverse ? word.source : word.translate,
-            style: TextStyle(color: color),
-          ),
-        );
-      },
-      style: NeumorphicStyle(
-        radius: 16,
-        elevation: .15,
+    return Padding(
+      padding: EdgeInsets.only(top: 16.0),
+      child: NeumorphicSelectableContainer(
+        maxUnpressedState: chosenVariant == null ? 0.0 : 0.5,
+        selected: chosenVariant != null &&
+            (word == chosenVariant || word == currentWord),
+        childBuilder: (pressProgress) {
+          return Container(
+            width: size.width,
+            padding: EdgeInsets.all(24.0),
+            child: Text(
+              isReverse ? word.source : word.translate,
+              style: TextStyle(
+                color: color,
+                fontSize: 16,
+                shadows:
+                    hasShadow ? [Shadow(color: color, blurRadius: 5)] : null,
+              ),
+            ),
+          );
+        },
+        style: NeumorphicStyle(
+          radius: 16,
+          elevation: .15,
+        ),
+        onSelected:
+            chosenVariant == null ? () => onAnswerRequested(word) : null,
       ),
-      onSelected: () {
-        if (chosenVariant == null) {
-          onAnswerRequested(word);
-        } else {
-          onNextClicked();
-        }
-      },
     );
   }
 
