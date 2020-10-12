@@ -11,6 +11,7 @@ class Word extends HiveObject {
     this.pronunciation,
     this.sourceSynonymous = const [],
     this.translateSynonymous = const [],
+    this.isIdiom = false,
   });
 
   @HiveField(0)
@@ -27,6 +28,9 @@ class Word extends HiveObject {
 
   @HiveField(4)
   List<String> translateSynonymous;
+
+  @HiveField(5)
+  bool isIdiom;
 
   @override
   String toString() {
