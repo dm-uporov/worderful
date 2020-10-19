@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words_remember/resources/colors.dart';
+import 'package:words_remember/resources/dimens.dart';
 import 'package:words_remember/screen/home/new_word.dart';
 import 'package:words_remember/screen/home/trainings.dart';
 import 'package:words_remember/screen/home/statistics.dart';
@@ -39,30 +40,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Positioned(
             bottom: 0,
-            height: 72,
+            height: bottomBarHeight,
             left: 0,
             right: 0,
             child: NeumorphicBottomNavigationBar(
-              items: [
-                NeumorphicBottomNavigationBarItem(
-                  icon: Icons.flag_rounded,
-                  title: 'Тренировка',
-                ),
-                NeumorphicBottomNavigationBarItem(
-                  icon: Icons.bar_chart,
-                  title: 'Статистика',
-                ),
-                NeumorphicBottomNavigationBarItem(
-                  icon: Icons.playlist_add,
-                  title: 'Словарь',
-                ),
-              ],
+              items: createNavigationBarItems(),
               onTap: _onItemTapped,
             ),
           ),
         ],
       ),
     );
+  }
+
+  List<NeumorphicBottomNavigationBarItem> createNavigationBarItems() {
+    return Screen.values.map((e) => NeumorphicBottomNavigationBarItem(
+      icon: e.icon,
+      title: e.title,
+    )).toList();
   }
 }
 
@@ -97,8 +92,23 @@ extension ScreenExtension on Screen {
         return 'Статистика';
       case Screen.WORDS_LIST:
         return 'Список слов';
-      // case Screen.NEW_WORD:
-      //   return 'Добавить слово';
+      case Screen.NEW_WORD:
+        return 'Добавить слово';
+      default:
+        return null;
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case Screen.TRAINING:
+        return Icons.flag_rounded;
+      case Screen.STATISTICS:
+        return Icons.bar_chart;
+      case Screen.WORDS_LIST:
+        return Icons.reorder;
+      case Screen.NEW_WORD:
+        return Icons.add;
       default:
         return null;
     }

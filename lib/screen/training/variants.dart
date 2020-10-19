@@ -10,6 +10,7 @@ import 'package:words_remember/utils/container/NeumorphicContainer.dart';
 import 'dart:math';
 
 import 'package:words_remember/utils/container/NeumorphicSelectableContainer.dart';
+import 'package:words_remember/utils/words.dart';
 
 class VariantsTrainingScreen extends StatefulWidget {
   @override
@@ -59,6 +60,7 @@ class _VariantsTrainingScreenState extends State<VariantsTrainingScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     isReverse ? currentWord.translate : currentWord.source,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24.0,
                       color: solidColor,
@@ -150,50 +152,51 @@ class _VariantsTrainingScreenState extends State<VariantsTrainingScreen> {
   }
 
   void initRandomWord() {
-    currentWord = getRandomWord(except: [currentWord]);
+    currentWord = words
+        .getRandomNWords(
+          random: random,
+          filter: exceptFilterFunction([currentWord]),
+        )
+        .first;
   }
 
   void initVariants() {
     variants = randomThreeWordsAndRightOne();
   }
 
-  Word getRandomWord({List<Word> except = const []}) {
-    final length = words.length;
-
-    if (length <= except.length) throw Exception('Have not enough words');
-
-    if (length == 1) return words.first;
-
-    final lastWords =
-        words.where((element) => !except.contains(element)).toList();
-
-    lastWords.shuffle();
-
-    if (lastWords.length == 1) return lastWords.first;
-
-    // check on word length
-    if (currentWord != null) {
-      final currentWordLength = currentWord.source.length;
-      for (int i = 0; i < lastWords.length; i++) {
-        final candidate = lastWords[i];
-        final candidateLength = candidate.source.length;
-        if (currentWordLength - 1 <= candidateLength &&
-            candidateLength <= currentWordLength + 1) {
-          return candidate;
-        }
-      }
-    }
-
-    return lastWords[random.nextInt(words.length)];
-  }
-
   List<Word> randomThreeWordsAndRightOne() {
-    final words = [currentWord];
-    for (int i = 0; i < 3; i++) {
-      words.add(getRandomWord(except: words));
-    }
-    words.shuffle();
-    return words;
+    final currentWordSource = currentWord.source;
+    final currentWordLength = currentWordSource.length;
+
+    final variants = words.getRandomNWords(
+      random: random,
+      count: 3,
+      filter: exceptFilterFunction([currentWord]),
+      funnelOfCriteria: [
+        wordLengthCriterion(
+          lengthFrom: currentWordLength - 3,
+          lengthTo: currentWordLength + 3,
+        ),
+        wordStartsWithCriterion(currentWordSource.substring(0, 1)),
+        wordLengthCriterion(
+          lengthFrom: currentWordLength - 2,
+          lengthTo: currentWordLength + 2,
+        ),
+        wordStartsWithCriterion(currentWordSource.substring(0, 2)),
+        wordLengthCriterion(
+          lengthFrom: currentWordLength - 1,
+          lengthTo: currentWordLength + 1,
+        ),
+        wordStartsWithCriterion(currentWordSource.substring(0, 3)),
+        wordEndsWithCriterion(currentWordSource.substring(0, 1)),
+        wordEndsWithCriterion(currentWordSource.substring(0, 2)),
+        wordStartsWithCriterion(currentWordSource.substring(0, 4)),
+        wordEndsWithCriterion(currentWordSource.substring(0, 3)),
+      ],
+    );
+    variants.add(currentWord);
+    variants.shuffle();
+    return variants;
   }
 
   void onAnswerRequested(Word chosen) {

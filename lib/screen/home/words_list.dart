@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:words_remember/business/WordsRepository.dart';
 import 'package:words_remember/model/Word.dart';
 import 'package:words_remember/resources/colors.dart';
+import 'package:words_remember/resources/dimens.dart';
 
 class WordsListScreen extends StatefulWidget {
   const WordsListScreen({Key key}) : super(key: key);
@@ -17,8 +18,11 @@ class _WordsListScreenState extends State<WordsListScreen> {
     return ValueListenableBuilder(
       valueListenable: WordsRepository.wordsListenable(),
       builder: (context, Box<Word> box, widget) {
+
+        final items = box.values.map(_wordToWidget).toList();
+        items.add(Padding(padding: EdgeInsets.only(bottom: bottomBarHeight)));
         return ListView(
-          children: box.values.map(_wordToWidget).toList(),
+          children: items,
         );
       },
     );

@@ -40,7 +40,7 @@ class _NeumorphicBottomNavigationBarState
       ),
       height: 72,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 48.0),
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: itemsWidgets(),
