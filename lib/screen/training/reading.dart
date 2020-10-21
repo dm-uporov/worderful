@@ -74,10 +74,12 @@ class _ReadingTrainingScreenState extends State<ReadingTrainingScreen> {
               Text(
                 _isReverse ? currentWord.translate : currentWord.source,
                 style: TextStyle(fontSize: 22.0, color: solidColor),
+                textAlign: TextAlign.center,
               ),
               Padding(padding: EdgeInsets.only(top: 48)),
               Text(
                 _hint,
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 22.0, color: lighten(solidColor)),
               ),
             ],
@@ -92,7 +94,7 @@ class _ReadingTrainingScreenState extends State<ReadingTrainingScreen> {
                   child: BrightIcon(
                     icon: _isAnswerHidden
                         ? Icons.remove_red_eye_outlined
-                        : Icons.keyboard_arrow_right_outlined,
+                        : Icons.double_arrow_rounded,
                     solidColor: colorByProgress(progress: pressProgress),
                     brightnessColor: cycleBlueAccent.withOpacity(pressProgress),
                   ),
