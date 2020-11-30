@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "433501100781",
+    "firebase_url": "https://htc-ios-learning.firebaseio.com",
+    "project_id": "htc-ios-learning",
+    "storage_bucket": "htc-ios-learning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433501100781:android:de2e13b223d70b5f760ae4",
+        "android_client_info": {
+          "package_name": "com.github.dm_uporov.words_remember"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433501100781-m42dht3rqavbldnpihobv33adlampke0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.dm_uporov.words_remember",
+            "certificate_hash": "b5b7e1f016460b46a8c225b2bbfc9596b8e383cf"
+          }
+        },
+        {
+          "client_id": "433501100781-1abd91depnm4a8dq8r7ek93nrjtvf40i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaapeHmWG6LQ7V1G_Z12saLOiwgzwqFJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433501100781-1abd91depnm4a8dq8r7ek93nrjtvf40i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "433501100781-4f7uu5tnvsd84oq0j2f892miufb1afbu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ru.htccs.iosLearning"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

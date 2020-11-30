@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -99,15 +101,22 @@ final myDictionary = [
   Word('awkward', 'неловко'),
   Word('offensive', 'оскорбительно'),
   Word('even though', 'даже если'),
+  Word('thoughtful', 'заботливый'),
+  Word('devastated', 'опустошенный'),
+  Word('to rehearse', 'репетировать'),
   Word('favor', 'одолжение'),
   Word('to borrow', 'заимствовать', translateSynonymous: ['занимать']),
   Word('annual', 'ежегодный'),
   Word('apparently', 'видимо'),
   Word('to take a nap', 'вздремнуть'),
   Word('faith', 'вера'),
+  Word('to acknowledge', 'признать'),
   Word('tastefully', 'со вкусом'),
   Word('barely', 'едва'),
   Word('turtleneck', 'водолазка'),
+  Word('blizzard', 'метель'),
+  Word('syllable', 'слог'),
+  Word('impatient', 'нетерпеливый'),
   Word('to carve', 'вырезать'),
   Word('to pin down', 'придавить'),
   Word('to tickle', 'щекотать'),
@@ -167,13 +176,13 @@ final myDictionary = [
   Word('pageant', 'конкурс'),
   Word('distortion', 'искажение'),
   Word('gentle comedy', 'тонкий юмор'),
-  Word('occurred', 'пришло мне в голову'),
+  Word('occurred to me', 'пришло мне в голову'),
   Word('generous', 'щедрый'),
   Word('burden falls on', 'бремя ложится на (кого-либо)'),
   Word('to make it through', 'пережить это'),
   Word('merely', 'лишь'),
   Word('to insinuate', 'намекать (обвинительно)'),
-  Word('stipulation', 'условие', translateSynonymous: ['оговорка']),
+  Word('stipulation', 'оговорка, условие'),
   Word('to insist', 'настаивать (на чем-либо)'),
   Word('tacky', 'безвкусно'),
   Word('stunning', 'сногсшибательный'),
@@ -181,13 +190,18 @@ final myDictionary = [
   Word('slim pickings', 'так себе перспективы'),
   Word('a little preoccupied', 'немного занят'),
   Word('to afford', 'мочь позволить себе'),
-  Word('You are in for a world of pain', 'Ты в мире боли', translateSynonymous: ['Приготовься к миру боли'], isIdiom: true),
+  Word('You are in for a world of pain', 'Ты в мире боли',
+      translateSynonymous: ['Приготовься к миру боли'], isIdiom: true),
   Word('it comes at a price', 'это имеет свою цену', isIdiom: true),
   Word('for a cause', 'за правое дело', isIdiom: true),
-  Word('in the first place', 'в первую очередь', translateSynonymous: ['прежде всего'], isIdiom: true),
-  Word('take my word', 'поверь на слово', translateSynonymous: ['уж поверь'], isIdiom: true),
-  Word('I know like the back of my hand', 'знаю, как свои пять пальцев', isIdiom: true),
-  Word('would not hurt you to say', 'не повредит тебе напомнить', isIdiom: true),
+  Word('in the first place', 'в первую очередь',
+      translateSynonymous: ['прежде всего'], isIdiom: true),
+  Word('take my word', 'поверь на слово',
+      translateSynonymous: ['уж поверь'], isIdiom: true),
+  Word('I know like the back of my hand', 'знаю, как свои пять пальцев',
+      isIdiom: true),
+  Word('would not hurt you to say', 'не повредит тебе напомнить',
+      isIdiom: true),
   Word('heel', 'каблук'),
   Word('to elope', 'сбежать'),
   Word('bulb', 'лампочка'),
@@ -205,7 +219,8 @@ final myDictionary = [
   Word('to chat', 'болтать', translateSynonymous: ['разговаривать ни о чём']),
   Word('to boast', 'хвастаться'),
   Word('to moan', 'жаловаться', translateSynonymous: ['ныть', 'нудеть']),
-  Word('to warn', 'советовать', translateSynonymous: ['поучать', 'предостерегать']),
+  Word('to warn', 'советовать, предостерегать',
+      translateSynonymous: ['поучать']),
   Word('thief', 'вор'),
   Word('burglar', 'грабитель'),
   Word('inappropriate', 'неуместный'),
@@ -219,8 +234,23 @@ final myDictionary = [
   Word('bargain', 'отличная сделка'),
   Word('competition', 'конкуренция, конкуренты', isIdiom: true),
   Word('to distract', 'отвлекать'),
+  Word('tempting', 'заманчиво'),
+  Word('frigging steal', 'грабеж средь бела дня', isIdiom: true),
+  Word('impressive', 'впечатляюще'),
+  Word('escrow', 'ипотека'),
+  Word('tricky', 'сложный, коварный'),
+  Word('to bark', 'лаять'),
+  Word('harm', 'ущерб, вред'),
+  Word('harmless', 'безобидный'),
+  Word('to blow over', 'утихнуть'),
+  Word('who gives a crap?', 'кому не насрать?'),
+  Word('unmentionables', 'непристойности'),
+  Word('there is no excuse for (smth)', 'нет прощения (чему-либо)'),
+  Word('low blow', 'удар ниже пояса', isIdiom: true),
+  Word('heads-up', 'предупреждение'),
+  Word('prude', 'скромница', translateSynonymous: ['ханжа']),
   Word('indecisive', 'нерешительный', pronunciation: 'индеса’йсив'),
-  Word('feel left out', 'чувстввать себя обеделнным', isIdiom: true),
+  Word('feel left out', 'чувствовать себя обеделённым', isIdiom: true),
   Word('I am maxed out', 'я на пределе', isIdiom: true),
   Word('wafer-thin ice', 'тонкий лёд', isIdiom: true),
   Word('not a close one', 'даже не близко', isIdiom: true),
@@ -240,14 +270,13 @@ final myDictionary = [
   Word('What’s the catch?', 'в чём подвох?', isIdiom: true),
   Word('to spill the beans', 'выдать секрет', isIdiom: true),
   Word('to work long hours', 'работать допоздна', isIdiom: true),
-  Word('to learn something by heart', 'выучить наизусть', isIdiom: true),
+  Word('to learn by heart', 'выучить наизусть', isIdiom: true),
   Word('to be in two minds', 'быть в ситуации, когда сложно принять решение',
       isIdiom: true),
   Word('to break the ice', 'разрядить обстановку', isIdiom: true),
   Word('to think outside the box', 'мыслить нестандартно', isIdiom: true),
   Word('to travel light', 'путешествовать налегке', isIdiom: true),
-  Word('to go window shopping', 'пойти по магазинам посмотреть',
-      isIdiom: true),
+  Word('to go window shopping', 'пойти по магазинам посмотреть', isIdiom: true),
   Word('let your hair down', 'развеяться, затусить', isIdiom: true),
   Word('rookie mistake', 'типичная ошибка новичка', isIdiom: true),
   Word('for your sake', 'для твоего же блага', isIdiom: true),
@@ -260,8 +289,24 @@ class WordsRepository {
   static Box<Word> _box = Hive.box<Word>(REPO_NAME);
 
   static Future preinitWords() async {
-    if (getWords().isEmpty) {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('words').get();
+// TODO разберись, допили загрузку слов с удаленного словаря (firestore)
+    if (snapshot.docs.isEmpty) {
       _box.addAll(myDictionary);
+    } else {
+      final remoteDictionary = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return Word(
+          data['en'],
+          data['ru'],
+          pronunciation: data['ruPronunciation'],
+          translateSynonymous: data['ruSynonymous'] as List<String>,
+          sourceSynonymous: data['enSynonymous'] as List<String>,
+          isIdiom: data['isIdiom'],
+        );
+      });
+      _box.addAll(remoteDictionary);
     }
   }
 
