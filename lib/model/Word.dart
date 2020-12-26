@@ -12,6 +12,7 @@ class Word extends HiveObject {
     this.sourceSynonymous = const [],
     this.translateSynonymous = const [],
     this.isIdiom = false,
+    this.firebaseId = NO_ID,
   });
 
   @HiveField(0)
@@ -32,8 +33,23 @@ class Word extends HiveObject {
   @HiveField(5)
   bool isIdiom;
 
+  @HiveField(6)
+  String firebaseId;
+
   @override
   String toString() {
     return '$source: $translate';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Word && source == other.source;
+  }
+
+  @override
+  int get hashCode {
+    return source.hashCode;
+  }
 }
+
+const String NO_ID = "NO_ID";

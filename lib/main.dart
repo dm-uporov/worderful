@@ -37,14 +37,15 @@ class App extends StatelessWidget {
     }
     await Hive.openBox<Word>(WordsRepository.REPO_NAME);
     await Firebase.initializeApp();
-    await WordsRepository.preinitWords();
 
     FirebaseAuth auth = FirebaseAuth.instance;
     if (auth.currentUser == null) {
-      await auth.signInAnonymously();
+      UserCredential userCredential = await auth.signInAnonymously();
     } else {
       print('user id is: ${auth.currentUser.uid}');
     }
+
+    await WordsRepository.preinitWords();
   }
 
   @override
